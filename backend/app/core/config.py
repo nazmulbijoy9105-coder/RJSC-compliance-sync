@@ -22,6 +22,13 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = "./uploads"
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
 
+    # Cloudflare R2 / S3 Storage Settings
+    AWS_ACCESS_KEY_ID: str = ""
+    AWS_SECRET_ACCESS_KEY: str = ""
+    AWS_STORAGE_BUCKET_NAME: str = ""
+    AWS_S3_ENDPOINT_URL: str = ""
+    AWS_S3_CUSTOM_DOMAIN: str = ""
+
     # Email/SMS (placeholder for integrations)
     SMTP_HOST: str = ""
     SMTP_PORT: int = 587

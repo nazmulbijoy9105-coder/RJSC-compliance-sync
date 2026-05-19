@@ -1,16 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from datetime import datetime
-import os
 from app.core.config import settings
 from app.core.database import async_engine, Base
 from app.api.v1 import auth, companies, compliance, dashboard, documents, filings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
@@ -30,8 +27,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
 
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
 app.include_router(companies.router, prefix="/api/v1/companies", tags=["Companies"])
